@@ -144,7 +144,11 @@ h2{font-weight:400;font-size:22px;text-align:center}
     <button class="mic" id="micbtn">🎤 Ver mi afinación (con auriculares)</button>
     <div class="tune hide" id="tune"><span class="nm" id="tnm">—</span><span class="bar"><b></b><i id="tneedle"></i></span><span class="st" id="tst">Cantá…</span></div>
     <div class="tip" id="tip">Boca relajada, mandíbula suelta.</div>
-    <div class="opts">
+    <div class="opts" id="vow">
+      <span style="align-self:center">Vocal</span>
+      <button data-v="ma" class="on">ma-me-mi-mo-mu</button><button data-v="ri">"ri" de Camarena</button>
+    </div>
+    <div class="opts" id="vel">
       <span style="align-self:center">Velocidad</span>
       <button data-t="0.55">Lenta</button><button data-t="0.42" class="on">Normal</button>
     </div>
@@ -179,7 +183,7 @@ const VOICES = {
   dramatico:  {n:"Dramático",   d:"oscuro y potente",   start:46, top:70, oct:true},  // desde si♭2
   contra:     {n:"Contratenor", d:"voz de cabeza",      start:62, top:74, oct:false}, // desde re4 · hasta la5
 };
-const SYL = ["ma","me","mi","mo","mu"];
+let SYL = ["ma","me","mi","mo","mu"];
 const PATTERN = [0,2,4,5,7,5,4,2,0]; // 1-2-3-4-5-4-3-2-1
 const KEY = {0:["C",0,"Do"],1:["D",-1,"Re♭"],2:["D",0,"Re"],3:["E",-1,"Mi♭"],4:["E",0,"Mi"],5:["F",0,"Fa"],6:["F",1,"Fa♯"],7:["G",0,"Sol"],8:["A",-1,"La♭"],9:["A",0,"La"],10:["B",-1,"Si♭"],11:["B",0,"Si"]};
 const LET = ["C","D","E","F","G","A","B"], NAT = {C:0,D:2,E:4,F:5,G:7,A:9,B:11};
@@ -204,7 +208,8 @@ $("#go1").onclick = ()=>show("s2");
 $("#back2").onclick = ()=>show("s1");
 $("#go2").onclick = async ()=>{ initAudio(); const b=$("#go2"); if(!loaded){ b.textContent="Cargando el piano…"; await loading; b.textContent="Listo, empezar"; } startExercise(); };
 $("#again").onclick = ()=>show("s1");
-document.querySelectorAll(".opts button").forEach(b=>b.onclick=()=>{ beat=+b.dataset.t; document.querySelectorAll(".opts button").forEach(x=>x.classList.toggle("on",x===b)); });
+document.querySelectorAll("#vel button").forEach(b=>b.onclick=()=>{ beat=+b.dataset.t; document.querySelectorAll("#vel button").forEach(x=>x.classList.toggle("on",x===b)); });
+document.querySelectorAll("#vow button").forEach(b=>b.onclick=()=>{ SYL = b.dataset.v==="ri" ? ["ri"] : ["ma","me","mi","mo","mu"]; document.querySelectorAll("#vow button").forEach(x=>x.classList.toggle("on",x===b)); $("#tip").textContent = b.dataset.v==="ri" ? "\"i\" vertical, con una \"o\" redonda adentro. La erre adelante, en los dientes." : "Boca relajada, mandíbula suelta."; });
 
 // ---------- Plan de repeticiones: sube de a medio tono hasta el tope y vuelve a bajar ----------
 function buildPlan(v){
@@ -433,6 +438,7 @@ const MODS = [
 <p>Ninguno reemplaza al otro.</p>
 <h3>Hábitos de todos los días</h3>
 <ul><li>Tomá agua durante todo el día, no solo cuando cantás.</li><li>Dormí bien: la voz cansada es la primera que se lastima.</li><li>Evitá gritar y carraspear (mejor tragar saliva o tomar un sorbo).</li><li>Sin tabaco. Alcohol, poco y lejos de cantar.</li><li>Después de un ensayo largo, descanso vocal.</li><li><b>Sesiones cortas y frecuentes:</b> 15 a 20 minutos rinden más que una hora seguida. Calentá siempre antes y enfriá después.</li></ul>
+<div class="box"><b>Como lo hace un profesional:</b> Javier Camarena se controla siempre con su foniatra, considera ideal cantar dos funciones por semana y, cuando la voz no está, descansa en lugar de medicarse. "Ningún atleta corre dos maratones en una semana."</div>
 <h3>El reflujo en cantantes</h3>
 <p>Es de los problemas más comunes y menos sospechados. En el reflujo "silencioso" el contenido del estómago sube hasta la garganta e irrita la laringe, muchas veces <b>sin acidez ni ardor</b>. En estudios con cuestionarios, entre el 25 % y el 65 % de los cantantes reportó síntomas.</p>
 <div class="box"><b>Señales típicas:</b> carraspeo constante, tos seca, algo pegado en la garganta, voz ronca sobre todo a la mañana, moco que baja por la garganta, agudos que cuestan más de lo normal.</div>
@@ -486,6 +492,7 @@ const MODS = [
 <p class="src">Es su explicación como maestro, no un dato médico.</p>
 <h3>Tu ruta, paso a paso</h3>
 <ol><li><b>Escuchar:</b> la diferencia entre abierto y recogido.</li><li><b>Vocales cerradas primero:</b> "u" y "o" en mi, fa y sol, suave.</li><li><b>Escalas de 5 notas</b> que cruzan la zona, subiendo de a medio tono, con el tope de tu tipo de voz.</li><li><b>Modificar la vocal</b> al cruzar: la "a" se va hacia la "o".</li><li><b>Frases de arias fáciles</b> que pasan por la zona.</li></ol>
+<div class="box"><b>Lo que agrega Javier Camarena:</b> hay que dominar el sonido abierto y el girado, porque según el repertorio se usa uno u otro. La nota anterior al agudo ya tiene que estar en posición, y al bajar no se deja caer. Lo ves completo en el módulo 7.</div>
 <div class="warn">No avances de paso si el anterior todavía te cierra la garganta. Si duele, raspa o se cierra, pará.</div>`},
 
  {id:"esc", n:"5", t:"Las escuelas de técnica", d:"Por qué dos profesores te dicen cosas distintas", html:`
@@ -507,6 +514,22 @@ const MODS = [
 <tr><td>Dramático</td><td>Arie antiche, Verdi temprano</td><td>Pagliacci, Aida</td><td>Forzar agudos antes de tiempo</td></tr>
 <tr><td>Contratenor</td><td>Purcell, Händel en zona media</td><td>Óperas de Händel, Vivaldi</td><td>—</td></tr></table>`},
 
+
+ {id:"cam", n:"7", t:"La clase de Javier Camarena", d:"Su rutina, la vocal \"i\", el giro de la voz y cómo cuidarse", tag:"Nuevo", html:`
+<p>Javier Camarena es uno de los grandes tenores de bel canto de hoy (Rossini, Donizetti, Bellini; famoso por sus bises en el Met). Esto es lo que enseña en sus clases, contado con nuestras palabras.</p>
+<div class="box">"La carrera del canto es de <b>resistencia, no de velocidad</b>." Es lo primero que le dijo su maestra y lo repite siempre.</div>
+<h3>Su forma de calentar</h3>
+<ul><li>No piensa en vocalizar "desde abajo" ni "desde arriba": piensa en <b>expandir la zona central</b> y desde ahí ir hacia el grave y el agudo.</li><li>Empieza en un sol grave y hace escalas que <b>suben y vuelven siempre a la misma nota</b>. Así, dice, no siente la dificultad de las notas: "la voz simplemente vuela".</li><li>Agranda el intervalo de a poco: tercera, cuarta, quinta, sexta, octava, novena y al final dos octavas. Sube de a medio tono hasta el do agudo.</li><li>Las bajadas, más rápidas, para cuidar la <b>ligereza</b> de la voz.</li><li>También trabaja el grave: no con más fuerza, sino con la misma posición y <b>menos energía</b>.</li></ul>
+<h3>La "i" vertical y la "o" adentro</h3>
+<ul><li>Vocaliza casi siempre en <b>"ri"</b>: la erre con la punta de la lengua, cerca de los dientes de adelante, lleva el sonido hacia delante.</li><li>La "i" no es sonriente ni horizontal: es <b>vertical y con mucho espacio</b>, casi como una "e", imaginando una "o" bien redonda adentro, en el paladar.</li><li>Ese espacio interno <b>no cambia nunca</b>, cante la vocal que cante. Si cambia, se pierde calidad y color.</li><li>Labios un poco hacia adelante, nunca estirados a los costados.</li><li>Espacio de <b>bostezo adentro</b>, pero el sonido <b>adelante</b>, en los dientes, "con punta". No dejar la voz atrás, donde está el bostezo.</li></ul>
+<h3>El giro de la voz (passaggio)</h3>
+<ul><li>En el fa hay dos posibilidades: <b>abierto y natural</b>, o <b>girado</b>. Son dos sonidos distintos y hay que dominar los dos: según el repertorio se usa uno u otro.</li><li>En su voz, el fa sostenido se gira y el sol <b>siempre</b> va girado. Más arriba, alrededor del si, hay un segundo giro: el punto donde va la voz se hace cada vez más fino.</li><li>No esperar a la nota aguda para acomodarla: <b>la nota anterior ya tiene que estar en posición</b>. "El agudo no viene solo: se construye desde la frase."</li><li>Al bajar desde el agudo, <b>no dejar caer la posición</b>.</li><li>Para unir notas usa un glissando exagerado ("como una abuela cantando en la iglesia") para que todo sea una sola emisión.</li><li>En el cuello la sensación tiene que ser que <b>no pasa nada</b>. A quien le sube la laringe, su consejo es simple: abrí la boca.</li></ul>
+<h3>Piano y forte</h3>
+<p>Cantar fuerte no es cuestión de fuerza sino de colocación. Para el piano usa <b>la misma energía y el mismo espacio</b> que para el forte: no se afloja nada.</p>
+<h3>Cómo se cuida</h3>
+<ul><li>Siempre bajo control de un <b>foniatra</b>: conoce su voz y sabe cuándo está irritada por cansancio o por reflujo.</li><li>Lo ideal para él son <b>dos funciones por semana</b>. Ningún atleta corre dos maratones en una semana.</li><li>Cuando la voz no está, <b>descansa en vez de medicarse</b>, y si hace falta cancela.</li><li>Camina todos los días: es el ejercicio que más le sirve.</li><li>Saber decir que no a los roles que no son para tu voz.</li></ul>
+<div class="warn">Estas son sus sensaciones de cantante: él mismo dice que se explica mejor cara a cara y que cada uno tiene que trabajarlo con su maestro.</div>
+<p class="src">Fuentes: vivo de Instagram de Javier Camarena sobre su rutina de vocalización (2018) y charla con clase magistral en la Escuela Superior de Canto de Madrid (15/7/2016).</p>`},
  {id:"pront", sec:"Próximamente", n:"+", t:"Rutinas de 10 y 20 minutos", d:"Relajación, respiración, calentamiento, passaggio y enfriamiento", tag:"Pronto", soon:true},
  {id:"camarin", n:"+", t:"Modo camarín", d:"Tu calentamiento de 15 minutos antes de la función", tag:"Pronto", soon:true},
  {id:"lect", n:"+", t:"Lectura a primera vista", d:"Clave de sol octavada, intervalos y ritmo", tag:"Pronto", soon:true},
