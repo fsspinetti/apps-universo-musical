@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>El mundo del tenor · Calentamiento guiado</title>
+<title>Universo Musical · El mundo del tenor</title>
 <style>
 :root{--bg:#141210;--card:#1f1b17;--ink:#f3ece2;--mut:#a99c8c;--gold:#d8a24a;--gold2:#f0c878;--red:#c9543c;--paper:#f6f0e4;--line:#2d2722}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -52,15 +52,63 @@ h2{font-weight:400;font-size:22px;text-align:center}
 .tune .st{min-width:86px;text-align:right;color:var(--mut)}
 .mic{background:transparent;border:1px solid #4a4038;color:var(--ink);border-radius:999px;padding:8px 14px;font:13px system-ui,sans-serif;cursor:pointer;align-self:center}
 .hide{display:none!important}
+.mods{display:flex;flex-direction:column;gap:10px}
+.mod{display:flex;gap:12px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--ink);font:inherit;cursor:pointer;width:100%}
+.mod .num{flex:0 0 34px;height:34px;border-radius:50%;border:1px solid var(--gold);color:var(--gold2);display:flex;align-items:center;justify-content:center;font-size:15px}
+.mod b{display:block;font-weight:400;font-size:18px}
+.mod span{font:13px system-ui,sans-serif;color:var(--mut)}
+.mod .tag{margin-left:auto;font:11px system-ui,sans-serif;color:#201608;background:var(--gold);border-radius:999px;padding:3px 8px;white-space:nowrap}
+.mod .tag.soon{background:#3a322b;color:var(--mut)}
+.mod.first{border-color:var(--gold)}
+.sec{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-family:system-ui,sans-serif;margin:8px 2px 0}
+.read{font:15px/1.6 system-ui,sans-serif;color:#e6ddd0;display:flex;flex-direction:column;gap:12px}
+.read h3{font:400 20px Georgia,serif;color:var(--gold2);margin-top:6px}
+.read ul,.read ol{padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.read b{color:var(--ink)}
+.read .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.read .src{font-size:12px;color:var(--mut)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;color:var(--gold);font-weight:600;border-bottom:1px solid var(--line);padding:6px 4px}
+.tbl td{border-bottom:1px solid var(--line);padding:7px 4px;vertical-align:top}
+.tbl td:first-child{color:var(--ink);font-family:Georgia,serif;font-size:15px}
+.big{font:44px Georgia,serif;text-align:center;color:var(--gold2)}
 .foot{text-align:center;font:11px system-ui,sans-serif;color:#6d6257}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="brand">El mundo del tenor</div>
+  <div class="brand">Universo Musical</div>
+
+  <!-- 0. Inicio -->
+  <section id="s0">
+    <h1>El mundo<br>del tenor</h1>
+    <p class="sub" style="margin:8px 0 16px">Técnica vocal lírica, escuela italiana.<br>Para tenores y contratenores. Primero, tu salud.</p>
+    <div class="mods" id="mods"></div>
+  </section>
+
+  <!-- Lectura de un módulo -->
+  <section id="sr" class="hide">
+    <button class="btn ghost" style="padding:8px;font-size:13px;width:auto;align-self:flex-start;padding:8px 14px" data-home>← Inicio</button>
+    <div class="sec" id="rnum"></div>
+    <h2 id="rtit" style="text-align:left;margin:4px 0 12px"></h2>
+    <div class="read" id="rbody"></div>
+    <div id="ract" style="margin-top:16px;display:flex;flex-direction:column;gap:8px"></div>
+  </section>
+
+  <!-- Test de rango -->
+  <section id="sq" class="hide" style="display:flex;flex-direction:column;gap:12px">
+    <button class="btn ghost" style="width:auto;align-self:flex-start;padding:8px 14px;font-size:13px" data-home>← Inicio</button>
+    <h2 id="qtit">Tu rango cómodo</h2>
+    <p class="sub" id="qtxt"></p>
+    <div class="big" id="qnote">—</div>
+    <div class="tip" id="qst"></div>
+    <button class="btn" id="qbtn">Empezar (con auriculares o en silencio)</button>
+    <div class="warn">Cantá cómodo, en "a" o en "o", sin empujar. Esto no mide tu nota más alta: mide dónde tu voz trabaja tranquila.</div>
+  </section>
 
   <!-- 1. Elegir voz -->
-  <section id="s1">
+  <section id="s1" class="hide">
+    <button class="btn ghost" style="width:auto;padding:8px 14px;font-size:13px;margin-bottom:10px" data-home>← Inicio</button>
     <h1>Calentá la voz<br>conmigo</h1>
     <p class="sub" style="margin:8px 0 14px">Escala de 5 notas · el piano sube hasta el agudo y vos frenás donde quieras</p>
     <div class="card">
@@ -79,6 +127,7 @@ h2{font-weight:400;font-size:22px;text-align:center}
       <li><i>2</i>Soltá la mandíbula: un bostezo suave, sin forzar.</li>
       <li><i>3</i>Tres respiraciones lentas: el aire abre las costillas, los hombros no suben.</li>
       <li><i>4</i>Un "mmm" suave en tu nota cómoda, sintiendo vibrar los labios.</li>
+      <li><i>5</i>Ahora un "ng" (como en "tengo"): deslizá suave de grave a agudo y volvé, sintiendo la vibración detrás de la nariz.</li>
     </ul>
     <button class="btn" id="go2">Listo, empezar</button>
     <button class="btn ghost" style="margin-top:8px" id="back2">Volver</button>
@@ -114,9 +163,10 @@ h2{font-weight:400;font-size:22px;text-align:center}
       Ahora tomá agua y descansá un minuto antes de pasar al trabajo de passaggio. Si notaste ronquera o dolor, hoy no sigas.
     </div>
     <button class="btn" style="margin-top:14px" id="again">Repetir</button>
+    <button class="btn ghost" style="margin-top:8px" data-home>Volver al inicio</button>
   </section>
 
-  <p class="foot">Prototipo · Universo Musical<br>Piano: Salamander Grand Piano, de Alexander Holm (CC BY 3.0)</p>
+  <p class="foot">Universo Musical · El mundo del tenor · versión de prueba<br>Piano: Salamander Grand Piano, de Alexander Holm (CC BY 3.0)</p>
 </div>
 
 <script>
@@ -142,7 +192,7 @@ let root, dir, rep, total, plan = [], idx = 0;
 
 // ---------- Pantallas ----------
 const $ = s => document.querySelector(s);
-function show(id){ ["s1","s2","s3","s4"].forEach(s=>$("#"+s).classList.toggle("hide", s!==id)); }
+function show(id){ document.querySelectorAll("section").forEach(s=>s.classList.toggle("hide", s.id!==id)); window.scrollTo(0,0); }
 const types = $("#types");
 for (const [k,v] of Object.entries(VOICES)){
   const b = document.createElement("button");
@@ -323,13 +373,16 @@ $("#down").onclick = ()=>{
 };
 // ---------- Micrófono: detección de afinación ----------
 let micOn = false, an, buf;
+async function getMic(){
+  initAudio(); if(an) return;
+  const st = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:false, autoGainControl:false}});
+  const src = ctx.createMediaStreamSource(st); an = ctx.createAnalyser(); an.fftSize = 2048; src.connect(an);
+  buf = new Float32Array(an.fftSize); micOn = true;
+}
 $("#micbtn").onclick = async ()=>{
-  if (micOn) return;
+  if (!$("#tune").classList.contains("hide")) return;
   try{
-    initAudio();
-    const st = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:false, autoGainControl:false}});
-    const src = ctx.createMediaStreamSource(st); an = ctx.createAnalyser(); an.fftSize = 2048; src.connect(an);
-    buf = new Float32Array(an.fftSize); micOn = true;
+    await getMic();
     $("#micbtn").classList.add("hide"); $("#tune").classList.remove("hide"); tuneLoop();
   }catch(e){ $("#micbtn").textContent = "No se pudo usar el micrófono: revisá el permiso del navegador"; }
 };
@@ -366,6 +419,166 @@ function tuneLoop(){
   requestAnimationFrame(tuneLoop);
 }
 $("#stop").onclick = ()=>finish("Terminaste antes: está perfecto escuchar a tu voz.");
+// ---------- Módulos de la app ----------
+const N = n => NAMES[((n%12)+12)%12] + (Math.floor(n/12)-1);
+const MODS = [
+ {id:"salud", n:"0", t:"Salud vocal primero", d:"Señales de alarma, hábitos, reflujo y la dieta del cantante", tag:"Empezá acá", first:true, html:`
+<p>Antes de cualquier ejercicio: tu voz es un instrumento que vive dentro tuyo y no se compra otro. Este módulo existe porque muchos empezamos solos, llevamos la voz al límite y nos lastimamos.</p>
+<div class="warn"><b>La regla de esta app:</b> si duele, raspa o la garganta se cierra, pará. Aparece en cada ejercicio. Esta app no reemplaza a un profesor ni a un médico.</div>
+<h3>Señales de alarma</h3>
+<ul><li>Dolor al cantar o al tragar.</li><li>Ronquera que dura más de dos semanas.</li><li>Perdés agudos o ya no te salen los pianos.</li><li>La voz se cansa muy rápido.</li><li>Sensación de algo pegado en la garganta.</li></ul>
+<p>Ante cualquiera de estas: parar y consultar.</p>
+<h3>Quién es quién</h3>
+<ul><li><b>Otorrinolaringólogo:</b> diagnostica y mira tus pliegues vocales (laringoscopia).</li><li><b>Fonoaudiólogo:</b> rehabilita la voz.</li><li><b>Profesor de canto:</b> enseña la técnica.</li></ul>
+<p>Ninguno reemplaza al otro.</p>
+<h3>Hábitos de todos los días</h3>
+<ul><li>Tomá agua durante todo el día, no solo cuando cantás.</li><li>Dormí bien: la voz cansada es la primera que se lastima.</li><li>Evitá gritar y carraspear (mejor tragar saliva o tomar un sorbo).</li><li>Sin tabaco. Alcohol, poco y lejos de cantar.</li><li>Después de un ensayo largo, descanso vocal.</li><li><b>Sesiones cortas y frecuentes:</b> 15 a 20 minutos rinden más que una hora seguida. Calentá siempre antes y enfriá después.</li></ul>
+<h3>El reflujo en cantantes</h3>
+<p>Es de los problemas más comunes y menos sospechados. En el reflujo "silencioso" el contenido del estómago sube hasta la garganta e irrita la laringe, muchas veces <b>sin acidez ni ardor</b>. En estudios con cuestionarios, entre el 25 % y el 65 % de los cantantes reportó síntomas.</p>
+<div class="box"><b>Señales típicas:</b> carraspeo constante, tos seca, algo pegado en la garganta, voz ronca sobre todo a la mañana, moco que baja por la garganta, agudos que cuestan más de lo normal.</div>
+<p>Los cantantes tenemos más riesgo: cenamos tarde después de las funciones, dormimos poco, vivimos con estrés y cantar aumenta la presión en la panza.</p>
+<h3>La dieta del cantante</h3>
+<ol><li><b>Horarios:</b> cená liviano y al menos 3 horas antes de acostarte. Después de una función, algo chico, no un banquete.</li><li><b>Porciones:</b> comidas más chicas y más seguidas.</li><li><b>Lo que suele empeorarlo:</b> café y mate en exceso, alcohol, chocolate, menta, frituras, picante, cítricos, tomate y gaseosas. No hace falta prohibir todo: anotá qué te cae mal a vos.</li><li><b>Al dormir:</b> si estás peor a la mañana, elevá la cabecera de la cama.</li><li><b>Antes de cantar:</b> nada pesado ni lácteos espesos 2 horas antes; agua a temperatura ambiente.</li><li>Sin ropa que apriete la panza.</li><li><b>Diario:</b> anotá qué comiste, a qué hora y cómo amaneció la voz. En pocas semanas vas a ver tu patrón.</li></ol>
+<div class="warn"><b>Cuándo ir al médico:</b> si los síntomas duran más de dos semanas o vuelven seguido, consultá con un otorrinolaringólogo. El diagnóstico y cualquier medicación los define el médico: esta app no indica remedios ni dosis.</div>
+<p class="src">Fuentes: revisión sistemática de Lechien y Briganti sobre reflujo en cantantes; Mayo Clinic; Carroll (reflujo y voz).</p>`},
+
+ {id:"tipo", n:"1", t:"¿Qué tenor sos?", d:"Los tipos de tenor, el contratenor y un test de tu rango", tag:"Con test", html:`
+<p>El tenor es la voz masculina más aguda de voz plena (más o menos de do3 a do5). Lo que lo define <b>no es la nota más alta</b>, sino el color, el peso y dónde está su passaggio, la zona de cambio (más o menos de mi4 a sol4).</p>
+<table class="tbl"><tr><th>Tipo</th><th>Color</th><th>Passaggio</th><th>Roles</th></tr>
+<tr><td>Ligero</td><td>Claro, ágil</td><td>sol4 / la♭4</td><td>Almaviva, Don Ramiro, Ernesto</td></tr>
+<tr><td>Lírico-ligero</td><td>Claro con cuerpo</td><td>sol4</td><td>Nemorino, Duque de Mantua</td></tr>
+<tr><td>Lírico</td><td>Cálido, redondo</td><td>fa♯4 / sol4</td><td>Rodolfo, Alfredo, Tamino</td></tr>
+<tr><td>Spinto</td><td>Lírico con empuje</td><td>fa4 / fa♯4</td><td>Cavaradossi, Don José</td></tr>
+<tr><td>Dramático</td><td>Oscuro, potente</td><td>mi4 / fa4</td><td>Otello, Canio, Calaf</td></tr>
+<tr><td>Heldentenor</td><td>Dramático con resistencia</td><td>mi4 / fa4</td><td>Tristan, Siegfried</td></tr></table>
+<p class="src">Voces de referencia: Flórez y Schipa (ligeros), Kraus, Pavarotti y Gigli (líricos), Bergonzi y Domingo (spinto), Del Monaco y Corelli (dramáticos), Melchior y Vickers (heldentenor). Los passaggi son aproximados y cambian según la persona.</p>
+<h3>¿Cómo darte cuenta?</h3>
+<ul><li>Dónde tu voz se siente cómoda (tesitura), no hasta dónde llega.</li><li>Dónde "gira" o cambia.</li><li>El color natural cuando hablás y cuando cantás suave.</li><li>Cuánto aguantás en frases largas.</li></ul>
+<div class="box">La clasificación la confirma un profesor y muchas veces se asienta tarde, entre los 25 y los 35 años. Bergonzi debutó como barítono y después pasó a tenor. <b>Nunca te clasifiques por la nota más alta que logres gritar.</b></div>
+<h3>¿Y el contratenor?</h3>
+<p>No es un tipo de tenor: es un hombre que canta en el registro de mezzo o contralto con la voz de cabeza trabajada hasta tener cuerpo y proyección. Su repertorio es sobre todo barroco (Händel, Purcell, Vivaldi) y obras modernas escritas para él. Referencias: Alfred Deller, Andreas Scholl, Philippe Jaroussky, Jakub Józef Orliński. Tiene su propia ruta, con ejercicios distintos.</p>`,
+  act:[["Hacer el test de rango", ()=>startRange()]]},
+
+ {id:"rutina", n:"2", t:"Calentá la voz conmigo", d:"Escala guiada con piano de cola, pentagrama y afinación", tag:"Ejercicio", go:()=>show("s1")},
+
+ {id:"voz", n:"3", t:"Cómo funciona la voz", d:"Respiración, apoyo, laringe, resonancia y squillo", html:`
+<p>Teoría corta, siempre con algo que puedas probar en el cuerpo.</p>
+<h3>El instrumento</h3>
+<p>Tres partes: los <b>pulmones</b> son el motor, la <b>laringe</b> con los pliegues vocales es la fuente del sonido y la boca y la garganta (el tracto vocal) son el <b>resonador</b> que lo amplifica y le da color.</p>
+<h3>Respiración y apoyo (appoggio)</h3>
+<p>Respiración costo-diafragmática: el aire abre las costillas hacia los costados y la panza, los hombros no suben. La escuela italiana habla de la "lotta vocale": los músculos de la inspiración siguen trabajando mientras cantás, para que el aire salga parejo y sin empujones.</p>
+<div class="box"><b>Probalo:</b> una mano en el pecho y otra en el abdomen. Inspirá sin que suba la del pecho. Soltá el aire en una "sss" pareja y contá cuántos segundos dura. Día a día, ese número crece.</div>
+<h3>La laringe</h3>
+<p>Estable y cómoda: ni empujada hacia abajo ni subiendo cuando vas al agudo. Hay escuelas que piden la laringe baja (Melocchi, la escuela de Del Monaco y Corelli); acá la presentamos como una escuela, no como verdad única.</p>
+<h3>Lengua, mandíbula y boca</h3>
+<p>Lengua relajada, apoyada detrás de los dientes de abajo. Mandíbula suelta, sin sacarla hacia adelante: es uno de los consejos directos de Pavarotti en sus clases.</p>
+<h3>Vocales y resonancia</h3>
+<p>El ideal italiano es el <b>chiaroscuro</b>: un sonido con brillo y profundidad a la vez. Alfredo Kraus buscaba colocar todas las vocales a la altura de la "i". Hacia el agudo, las vocales se modifican un poco (la "a" se acerca a la "o") para no abrir el sonido.</p>
+<h3>El ataque</h3>
+<p>Cómo empieza cada nota: ni soplado (sale aire antes del sonido) ni con golpe de garganta. Equilibrado, como un "ah" tranquilo.</p>
+<h3>Proyección y squillo</h3>
+<p>Una voz bien colocada tiene un brillo (el "formante del cantante", que estudió Johan Sundberg) que se escucha por encima de una orquesta <b>sin gritar</b>.</p>`},
+
+ {id:"pas", n:"4", t:"El passaggio del tenor", d:"Fa, fa♯, sol: cómo pasar sin abrir ni lastimarte", html:`
+<p>Es la zona más delicada del tenor. Casi todas las lesiones del tenor que aprende solo vienen de cantar <b>abierto</b> el fa, el fa♯ y el sol.</p>
+<h3>Lo que enseñaba Pavarotti</h3>
+<ul><li>El tenor de voz plena, del lírico al dramático, empieza a <b>"raccogliere"</b> (recoger) el sonido hacia fa, fa♯ y sol.</li><li>El joven no le cree, porque por dentro se siente forzado y ahogado. Desde afuera suena noble.</li><li>Según él, eso deja la voz lista para los agudos difíciles (si♭ a do).</li><li>Abrir esas notas puede sonar más emocionante, pero si se vuelve costumbre, "hasta la voz más hermosa termina gastándose".</li><li>Importa el color, no la cantidad. El mismo cuerpo en toda la frase, sin empujar y sin sacar la mandíbula.</li><li>Si una nota se quiebra en la posición correcta, es mejor que sonar "en la garganta".</li></ul>
+<p class="src">Es su explicación como maestro, no un dato médico.</p>
+<h3>Tu ruta, paso a paso</h3>
+<ol><li><b>Escuchar:</b> la diferencia entre abierto y recogido.</li><li><b>Vocales cerradas primero:</b> "u" y "o" en mi, fa y sol, suave.</li><li><b>Escalas de 5 notas</b> que cruzan la zona, subiendo de a medio tono, con el tope de tu tipo de voz.</li><li><b>Modificar la vocal</b> al cruzar: la "a" se va hacia la "o".</li><li><b>Frases de arias fáciles</b> que pasan por la zona.</li></ol>
+<div class="warn">No avances de paso si el anterior todavía te cierra la garganta. Si duele, raspa o se cierra, pará.</div>`},
+
+ {id:"esc", n:"5", t:"Las escuelas de técnica", d:"Por qué dos profesores te dicen cosas distintas", html:`
+<p>La app toma la escuela italiana como eje y te muestra dónde coinciden las demás.</p>
+<table class="tbl"><tr><th>Escuela</th><th>Idea central</th><th>Coincide con la italiana en</th></tr>
+<tr><td>Italiana</td><td>Legato, apoyo, chiaroscuro, voz en máscara, vocales puras</td><td>—</td></tr>
+<tr><td>Alemana</td><td>Voz más oscura y cubierta, la palabra, Wagner y el Lied</td><td>Apoyo y cobertura en el passaggio</td></tr>
+<tr><td>Francesa</td><td>Claridad del texto, voz mixta liviana, nasales</td><td>Ligereza en el agudo</td></tr>
+<tr><td>Americana</td><td>Pedagogía con fisiología y acústica (Richard Miller)</td><td>Explica con datos lo que la italiana enseñaba por sensación</td></tr>
+<tr><td>Asiáticas</td><td>Formación muy rigurosa y disciplina diaria</td><td>Toman directamente el bel canto</td></tr></table>`},
+
+ {id:"rep", n:"6", t:"Repertorio por tipo de voz", d:"Qué cantar primero, qué después y qué esperar", html:`
+<p>La regla de oro de Kraus y Bergonzi: <b>no apurar el repertorio</b>. Kraus hizo una carrera de cuatro décadas diciendo que no a los roles que no eran para su voz. Bergonzi recomendaba empezar por Don Pasquale o L'elisir d'amore, después La traviata y Lucia, y recién más adelante La bohème, Faust y Manon.</p>
+<div class="box"><b>Para todos, al empezar:</b> arie antiche (Caro mio ben, Amarilli, Sebben crudele, Nel cor più non mi sento) y canciones de cámara sencillas en la zona media.</div>
+<table class="tbl"><tr><th>Tipo</th><th>Para empezar</th><th>Más adelante</th><th>Esperá</th></tr>
+<tr><td>Ligero</td><td>Mozart: Dalla sua pace</td><td>Rossini: Ecco ridente; Donizetti: Com'è gentil</td><td>Puccini y verismo</td></tr>
+<tr><td>Lírico</td><td>Il mio tesoro, Dies Bildnis, Una furtiva lagrima</td><td>Bohème, Traviata, Rigoletto, Werther</td><td>Tosca, Turandot, Otello</td></tr>
+<tr><td>Spinto</td><td>Arie antiche, Mozart</td><td>Tosca, Carmen, Un ballo in maschera</td><td>Otello, Wagner pesado</td></tr>
+<tr><td>Dramático</td><td>Arie antiche, Verdi temprano</td><td>Pagliacci, Aida</td><td>Forzar agudos antes de tiempo</td></tr>
+<tr><td>Contratenor</td><td>Purcell, Händel en zona media</td><td>Óperas de Händel, Vivaldi</td><td>—</td></tr></table>`},
+
+ {id:"pront", sec:"Próximamente", n:"+", t:"Rutinas de 10 y 20 minutos", d:"Relajación, respiración, calentamiento, passaggio y enfriamiento", tag:"Pronto", soon:true},
+ {id:"camarin", n:"+", t:"Modo camarín", d:"Tu calentamiento de 15 minutos antes de la función", tag:"Pronto", soon:true},
+ {id:"lect", n:"+", t:"Lectura a primera vista", d:"Clave de sol octavada, intervalos y ritmo", tag:"Pronto", soon:true},
+ {id:"fon", n:"+", t:"Fonética lírica", d:"Italiano, francés y alemán para cantar", tag:"Pronto", soon:true},
+ {id:"pop", n:"+", t:"Voz popular vs. voz lírica", d:"Qué cambia y qué se comparte", tag:"Pronto", soon:true},
+];
+const modsEl = $("#mods");
+MODS.forEach(m=>{
+  if(m.sec){ const h=document.createElement("div"); h.className="sec"; h.textContent=m.sec; modsEl.appendChild(h); }
+  const b=document.createElement("button"); b.className="mod"+(m.first?" first":"");
+  b.innerHTML=`<span class="num">${m.n}</span><span style="flex:1"><b>${m.t}</b><span>${m.d}</span></span>${m.tag?`<span class="tag${m.soon?" soon":""}">${m.tag}</span>`:""}`;
+  b.onclick=()=>{ if(m.soon) return; if(m.go) return m.go(); openMod(m); };
+  modsEl.appendChild(b);
+});
+function openMod(m){
+  $("#rnum").textContent = "Módulo "+m.n; $("#rtit").textContent = m.t; $("#rbody").innerHTML = m.html;
+  const a=$("#ract"); a.innerHTML="";
+  (m.act||[]).forEach(([t,f])=>{ const b=document.createElement("button"); b.className="btn"; b.textContent=t; b.onclick=f; a.appendChild(b); });
+  const c=document.createElement("button"); c.className="btn"+((m.act||[]).length?" ghost":""); c.textContent="Ir al calentamiento"; c.onclick=()=>show("s1"); a.appendChild(c);
+  show("sr");
+}
+document.querySelectorAll("[data-home]").forEach(b=>b.onclick=()=>{ if(running){ running=false; clearTimers(); lightKey(-1); } show("s0"); });
+
+// ---------- Test de rango cómodo ----------
+let rStep=0, rLow=null, rHigh=null;
+function startRange(){
+  rStep=0; rLow=rHigh=null; show("sq");
+  $("#qtit").textContent="Tu rango cómodo";
+  $("#qtxt").textContent="Vamos a medir dos notas: la más grave que cantás cómodo y la más aguda que cantás cómodo, sin forzar.";
+  $("#qnote").textContent="—"; $("#qst").textContent=""; $("#qbtn").textContent="Empezar"; $("#qbtn").disabled=false;
+}
+function listen(ms){
+  return new Promise(res=>{
+    const vals=[], t0=performance.now();
+    (function loop(){
+      an.getFloatTimeDomainData(buf); const f=detectPitch(buf, ctx.sampleRate);
+      if(f>0){ const m=69+12*Math.log2(f/440); vals.push(m); $("#qnote").textContent=N(Math.round(m)); }
+      if(performance.now()-t0<ms) requestAnimationFrame(loop);
+      else { vals.sort((a,b)=>a-b); res(vals.length>15 ? Math.round(vals[Math.floor(vals.length/2)]) : null); }
+    })();
+  });
+}
+$("#qbtn").onclick = async ()=>{
+  const b=$("#qbtn");
+  try{ await getMic(); }catch(e){ $("#qst").textContent="No se pudo usar el micrófono: revisá el permiso del navegador."; return; }
+  if(rStep===0 || rStep===1){
+    const low = rStep===0;
+    b.disabled=true; $("#qtit").textContent = low ? "1 · Tu nota grave cómoda" : "2 · Tu nota aguda cómoda";
+    $("#qtxt").textContent = low ? "Cantá una \"a\" larga en la nota más grave que te salga con sonido limpio, sin apretar." : "Ahora una \"a\" u \"o\" larga en la nota más aguda que cantás cómodo. No la más alta que llegás: la que podrías repetir diez veces sin cansarte.";
+    for(let i=3;i>0;i--){ $("#qst").textContent="Preparate… "+i; await new Promise(r=>setTimeout(r,800)); }
+    $("#qst").textContent="¡Cantá y sostené! (4 segundos)";
+    const m = await listen(4000);
+    b.disabled=false;
+    if(m===null){ $("#qst").textContent="No te escuché bien. Acercate al micrófono y probá de nuevo."; b.textContent="Repetir"; return; }
+    if(low){ rLow=m; rStep=1; $("#qst").textContent="Grave cómoda: "+N(m)+". ¡Bien!"; b.textContent="Siguiente: nota aguda"; }
+    else { rHigh=m; rStep=2; showRange(); }
+  } else startRange();
+};
+function showRange(){
+  let lo=Math.min(rLow,rHigh), hi=Math.max(rLow,rHigh);
+  $("#qtit").textContent="Tu rango cómodo"; $("#qnote").textContent=N(lo)+" – "+N(hi);
+  let msg;
+  if(hi>=67 && lo>=45) msg="Tu zona cómoda coincide con la de un tenor (más o menos do3 a sol4 cómodos, con el passaggio por fa–sol). ";
+  else if(hi>=74) msg="Cantás cómodo muy arriba: puede ser voz de cabeza. Si es una voz con cuerpo, mirá el contratenor. ";
+  else if(hi<=64) msg="Tu zona cómoda hoy está más grave que la de un tenor típico. Puede ser una voz de barítono o una voz que todavía no está trabajada en la zona media-aguda: no fuerces para \"llegar\". ";
+  else msg="Tu zona cómoda está en el medio, entre barítono y tenor. Es muy común al empezar. ";
+  $("#qtxt").textContent = msg + "Es solo una orientación: el tipo de voz lo define el color y lo confirma un profesor.";
+  $("#qst").textContent = "Elegí en el calentamiento el tipo que más se parezca a tu color, o Lírico si dudás.";
+  $("#qbtn").textContent="Hacerlo de nuevo";
+}
+show("s0");
+
 </script>
 </body>
 </html>
