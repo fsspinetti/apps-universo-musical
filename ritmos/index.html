@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrenador de Ritmos · Bombo Legüero</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#f6efe3; --card:#fffaf2; --ink:#2b1d14; --muted:#7a6656; --terra:#b5512e; --terra-dark:#8e3b1f; --aro:#d9a13b; --x:#6b3a8a; --line:#e4d6c3; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Nunito',system-ui,sans-serif;font-size:18px;-webkit-tap-highlight-color:transparent}
+  .wrap{max-width:780px;margin:0 auto;padding:20px 16px 60px}
+  header{text-align:center;padding:10px 0 14px}
+  .kicker{font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--terra);font-size:.72rem}
+  h1{font-family:'Fraunces',serif;font-weight:800;font-size:2.1rem;line-height:1.05;margin-top:6px}
+  header p{color:var(--muted);margin-top:8px;font-size:1rem}
+  .label{font-weight:800;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+  .rhythms{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .rbtn{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left;cursor:pointer;font:inherit;color:inherit}
+  .rbtn b{display:block;font-family:'Fraunces',serif;font-size:1.12rem;line-height:1.15}
+  .rbtn span{font-size:.8rem;color:var(--muted)}
+  .rbtn.on{border-color:var(--terra);background:#fff;box-shadow:0 4px 0 var(--terra)}
+  .card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px;margin-top:18px}
+  .title{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:800}
+  .desc{color:var(--muted);font-size:.98rem;line-height:1.45;margin-top:6px}
+  .book{display:inline-block;margin-top:10px;font-size:.85rem;font-weight:700;color:var(--terra-dark);background:#f3e2d5;border-radius:999px;padding:5px 12px}
+  details{margin-top:12px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 14px}
+  summary{font-weight:800;cursor:pointer;font-size:.95rem}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.9rem}
+  td{padding:6px 4px;border-top:1px solid var(--line);vertical-align:top}
+  td:first-child{font-weight:800;white-space:nowrap;padding-right:12px}
+  .variants{display:flex;gap:8px;flex-wrap:wrap}
+  .vbtn{min-width:52px;height:46px;padding:0 12px;border-radius:12px;border:2px solid var(--line);background:#fff;font:inherit;font-weight:800;font-size:.95rem;cursor:pointer;color:var(--ink)}
+  .vbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .exnote{margin-top:12px;font-weight:700;color:var(--terra-dark);font-size:.95rem;min-height:1.2em}
+  .bars{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+  .bar{display:flex;gap:3px;align-items:stretch}
+  .bar .num{width:22px;font-size:.7rem;color:var(--muted);font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+  .cell{min-width:0;height:54px;border-radius:9px;background:#efe4d4;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;position:relative;overflow:hidden}
+  .cell.P{background:var(--terra);color:#fff}
+  .cell.H{background:#d4774f;color:#fff}
+  .cell.M{background:#c4613b;color:#fff}
+  .cell.A{background:var(--aro);color:var(--ink)}
+  .cell.X{background:var(--x);color:#fff}
+  .cell.acc{box-shadow:0 0 0 3px var(--ink) inset}
+  .cell.acc::after{content:'>';position:absolute;top:2px;font-size:.7rem}
+  .cell.g::before{content:'•';position:absolute;left:4px;top:2px;font-size:.8rem}
+  .cell.now{outline:4px solid var(--ink);transform:scale(1.06);z-index:2}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:.84rem;color:var(--muted)}
+  .legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:5px}
+  .tempo-row{display:flex;align-items:center;gap:12px}
+  .tempo-val{font-family:'Fraunces',serif;font-size:2.3rem;font-weight:800;min-width:88px;text-align:center}
+  .tempo-val small{display:block;font-family:'Nunito';font-size:.7rem;color:var(--muted);font-weight:700}
+  .step{width:52px;height:52px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:1.6rem;font-weight:800;cursor:pointer;color:var(--ink);flex:none}
+  input[type=range]{flex:1;accent-color:var(--terra);height:36px;min-width:0}
+  .target{font-size:.85rem;color:var(--muted);margin-top:4px}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .opt{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:12px;font-weight:700;font-size:.92rem;cursor:pointer;user-select:none}
+  .opt input{width:22px;height:22px;accent-color:var(--terra);flex:none}
+  .play{width:100%;height:76px;border:none;border-radius:20px;background:var(--terra);color:#fff;font:inherit;font-size:1.4rem;font-weight:800;margin-top:20px;cursor:pointer;box-shadow:0 5px 0 var(--terra-dark)}
+  .play.stop{background:var(--ink);box-shadow:0 5px 0 #000}
+  .status{text-align:center;color:var(--muted);font-weight:700;margin-top:12px;min-height:1.4em}
+  .sticky{position:sticky;bottom:10px;z-index:5}
+  .tips li{margin:0 0 8px 20px;color:var(--muted);line-height:1.45;font-size:.95rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px;line-height:1.8}
+  footer a,#gate a{color:var(--terra-dark);font-weight:700}
+  .inp{width:100%;height:60px;border-radius:14px;border:2px solid var(--line);background:#fff;font:inherit;font-size:1.15rem;padding:0 16px;margin-top:16px;color:var(--ink)}
+  .inp:focus{outline:none;border-color:var(--terra)}
+  @media (max-width:440px){ h1{font-size:1.75rem} .cell{font-size:.78rem;height:48px} .opts{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Bono · MegaPack Folclórico</div>
+    <h1>Entrenador de Ritmos<br>del Bombo Legüero</h1>
+    <p>Todos los ritmos y ejercicios del libro, para escuchar y tocar al tempo que te salga.</p>
+  </header>
+
+  <div id="gate" class="card" style="text-align:center">
+    <div id="gLoading" class="desc">Cargando…</div>
+    <div id="gEmail" style="display:none">
+      <div class="title">Entrá con tu correo</div>
+      <p class="desc">Escribí el correo con el que compraste el MegaPack. Te mandamos un código de 6 números para entrar.</p>
+      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" class="inp">
+      <button class="play" id="btnEmail">Enviarme el código</button>
+    </div>
+    <div id="gCode" style="display:none">
+      <div class="title">Revisá tu correo</div>
+      <p class="desc">Te mandamos un código a <b id="emailShow"></b>. Escribilo acá (si no lo ves, mirá en Spam o Promociones).</p>
+      <input id="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Código" class="inp" style="letter-spacing:.3em;text-align:center;font-size:1.6rem">
+      <button class="play" id="btnCode">Entrar</button>
+      <p class="desc" style="margin-top:12px"><a href="#" id="otherEmail">Usar otro correo</a> · <a href="#" id="resend">Reenviar código</a></p>
+    </div>
+    <div id="gNo" style="display:none">
+      <div class="title">Este correo no tiene acceso</div>
+      <p class="desc">No encontramos una compra del MegaPack Folclórico con <b id="emailNo"></b>. Probá con el correo que usaste al comprar.</p>
+      <button class="play" id="tryAgain">Probar con otro correo</button>
+      <p class="desc" style="margin-top:12px"><a id="buyLink" target="_blank" rel="noopener">¿Todavía no lo tenés? Conseguí el MegaPack acá</a></p>
+    </div>
+    <div class="status" id="gMsg"></div>
+  </div>
+
+  <div id="appWrap" style="display:none">
+  <div class="label">1 · Elegí el ritmo</div>
+  <div class="rhythms" id="rhythms"></div>
+
+  <div class="card">
+    <div class="title" id="title"></div>
+    <div class="desc" id="desc"></div>
+    <span class="book" id="book"></span>
+    <details id="formBox"><summary>Estructura formal</summary><table id="form"></table></details>
+
+    <div class="label">2 · Elegí el ejercicio</div>
+    <div class="variants" id="variants"></div>
+    <div class="exnote" id="exnote"></div>
+    <div class="bars" id="bars"></div>
+    <div class="legend">
+      <span><i style="background:var(--terra)"></i>P · Parche</span>
+      <span><i style="background:var(--aro)"></i>A · Aro</span>
+      <span><i style="background:var(--x)"></i>X · Aro y parche juntos</span>
+      <span><i style="background:#d4774f"></i>H/M · Parche borde / medio</span>
+      <span><i style="background:#fff;box-shadow:0 0 0 3px var(--ink) inset"></i>Borde negro · golpe fuerte</span>
+      <span>• apoyatura (adorno)</span>
+    </div>
+
+    <div class="label">3 · Velocidad</div>
+    <div class="tempo-row">
+      <button class="step" id="minus" aria-label="Más lento">−</button>
+      <input type="range" id="tempo" min="25" max="180" step="1">
+      <button class="step" id="plus" aria-label="Más rápido">+</button>
+      <div class="tempo-val" id="tempoVal">60<small>por minuto</small></div>
+    </div>
+    <div class="target" id="target"></div>
+
+    <div class="opts">
+      <label class="opt"><input type="checkbox" id="optBombo" checked> Escuchar el bombo</label>
+      <label class="opt"><input type="checkbox" id="optMetro" checked> Metrónomo</label>
+      <label class="opt"><input type="checkbox" id="optCount" checked> Cuenta antes de arrancar</label>
+      <label class="opt"><input type="checkbox" id="optRamp"> Modo práctica (sube solo)</label>
+    </div>
+
+    <div class="sticky"><button class="play" id="play">▶ Tocar</button></div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="card tips">
+    <div class="label" style="margin-top:0">Cómo practicar</div>
+    <ul>
+      <li>Empezá lento, con el bombo sonando, y seguí los cuadros con la vista.</li>
+      <li>Cuando te salga 4 veces seguidas sin errores, subí 5 de velocidad.</li>
+      <li>Probá sacar "Escuchar el bombo" y tocá vos solo con el metrónomo.</li>
+      <li>"Modo práctica" arranca más lento y va subiendo cada 4 vueltas hasta el tempo del libro.</li>
+      <li>Para las alturas (H/M/P): borde del parche, medio y centro, para que suenen tres sonidos distintos.</li>
+      <li>Si no tenés bombo todavía: un balde, una caja o un almohadón sirven para el parche, y el borde de una mesa para el aro.</li>
+    </ul>
+  </div>
+
+  <footer>Basado en "Bombo legüero y percusión folklórica argentina", de Carlos Rivero · Bono 1<br><a href="#" id="logout">Cerrar sesión</a></footer>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB_URL = 'https://bvtwkydyvwqykaospttb.supabase.co';
+const SB_KEY = 'sb_publishable_e9hDzz5gHw9wppVF5PCb_Q_wYzxcfis';
+const TIENDA = 'https://tienda.escueladebombo.online';
+let RHYTHMS = [];
+</script>
+<script>
+const $ = s => document.querySelector(s);
+const TOK = /^(g?)([APXHM-])(>?)([\d.]*)(?:\/(\d+))?$/;
+function parseBar(str){
+  let t = 0; const ev = [];
+  for(const tk of str.trim().split(/\s+/)){
+    const m = tk.match(TOK); if(!m) continue;
+    const num = m[4]==='' ? 1 : parseFloat(m[4]);
+    const d = m[5] ? num/+m[5] : num;
+    ev.push({t, d, s:m[2], acc:!!m[3], g:!!m[1]}); t += d;
+  }
+  return {ev, len:t};
+}
+let cur, ex, tempo, parsed = [];
+let ctx=null, NOISE=null, playing=false, timer=null;
+let seq=[], idx=0, nextTime=0, loops=0, countLeft=0, rampTarget=null;
+
+function store(k,v){ try{ localStorage.setItem('ritmos2_'+k, JSON.stringify(v)); }catch(e){} }
+function load(k,d){ try{ const v=localStorage.getItem('ritmos2_'+k); return v===null?d:JSON.parse(v); }catch(e){ return d; } }
+
+function renderRhythms(){
+  $('#rhythms').innerHTML = RHYTHMS.map(r=>`<button class="rbtn ${r===cur?'on':''}" data-id="${r.id}"><b>${r.name}</b><span>${r.sub}</span></button>`).join('');
+  document.querySelectorAll('.rbtn').forEach(b=>b.onclick=()=>{ selectRhythm(b.dataset.id); $('#title').scrollIntoView({behavior:'smooth',block:'start'}); });
+}
+function selectRhythm(id){
+  const was = playing; if(playing) stop();
+  cur = RHYTHMS.find(r=>r.id===id) || RHYTHMS[0]; store('last', cur.id);
+  ex = cur.ex[0]; tempo = load('tempo_'+cur.id, Math.round(cur.tempo*0.6));
+  renderAll(); if(was) start();
+}
+function selectEx(i){ const was=playing; if(playing) stop(); ex = cur.ex[i]; renderVariants(); renderBars(); if(was) start(); }
+function renderVariants(){
+  $('#variants').innerHTML = cur.ex.map((e,i)=>`<button class="vbtn ${e===ex?'on':''}" data-i="${i}">${e.n}</button>`).join('');
+  document.querySelectorAll('.vbtn').forEach(b=>b.onclick=()=>selectEx(+b.dataset.i));
+  // nota: la del ejercicio o la del primero del grupo que la tenga
+  let note = ex.note || ''; if(!note){ for(let i=cur.ex.indexOf(ex); i>=0; i--){ if(cur.ex[i].note){ note = cur.ex[i].note; break; } } }
+  $('#exnote').textContent = note;
+}
+function renderBars(){
+  parsed = ex.b.map(parseBar);
+  $('#bars').innerHTML = parsed.map((bar,bi)=>`<div class="bar"><span class="num">${parsed.length>1?bi+1:''}</span>`+
+    bar.ev.map((e,ei)=>{
+      const lbl = e.s==='-' ? '' : e.s;
+      return `<div class="cell ${e.s==='-'?'':e.s} ${e.acc?'acc':''} ${e.g?'g':''}" id="c${bi}_${ei}" style="flex:${Math.max(e.d,0.25)}">${lbl}</div>`;
+    }).join('')+`</div>`).join('');
+}
+function renderTempo(){
+  $('#tempo').value = tempo;
+  $('#tempoVal').innerHTML = `${tempo}<small>por minuto</small>`;
+  $('#target').textContent = `Tempo del libro: ${cur.tempo} (${cur.beat===3?'negra con punto':'negra'}). Arrancá más lento y subí de a poco.`;
+}
+function renderAll(){
+  renderRhythms(); renderVariants(); renderBars(); renderTempo();
+  $('#title').textContent = cur.name + (cur.id.startsWith('solos')?' · '+cur.sub:'');
+  $('#desc').textContent = cur.desc;
+  $('#book').textContent = `📖 Bono 1, página ${cur.page} del PDF · ${cur.meter}`;
+  if(cur.form){ $('#formBox').style.display=''; $('#form').innerHTML = cur.form.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join(''); }
+  else $('#formBox').style.display='none';
+}
+function setTempo(t){ tempo = Math.max(25, Math.min(180, Math.round(t))); store('tempo_'+cur.id, tempo); renderTempo(); }
+
+/* ---------- Sonido ---------- */
+function noiseBuf(){ const b=ctx.createBuffer(1,ctx.sampleRate*0.2,ctx.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; return b; }
+function parche(t, acc, pitch=1, vol=1){
+  const g=ctx.createGain(), o=ctx.createOscillator();
+  o.type='sine'; o.frequency.setValueAtTime((acc?115:100)*pitch,t); o.frequency.exponentialRampToValueAtTime(45*pitch,t+0.35);
+  const v=(acc?1.0:0.62)*vol;
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(v,t+0.006); g.gain.exponentialRampToValueAtTime(0.0001,t+0.45);
+  o.connect(g).connect(ctx.destination); o.start(t); o.stop(t+0.5);
+  const n=ctx.createBufferSource(), ng=ctx.createGain(), f=ctx.createBiquadFilter();
+  n.buffer=NOISE; f.type='lowpass'; f.frequency.value=900*pitch;
+  ng.gain.setValueAtTime((acc?0.35:0.2)*vol,t); ng.gain.exponentialRampToValueAtTime(0.0001,t+0.06);
+  n.connect(f).connect(ng).connect(ctx.destination); n.start(t); n.stop(t+0.08);
+}
+function aro(t, acc, vol=1){
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='triangle'; o.frequency.setValueAtTime(1150,t); o.frequency.exponentialRampToValueAtTime(700,t+0.04);
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime((acc?0.6:0.42)*vol,t+0.002); g.gain.exponentialRampToValueAtTime(0.0001,t+0.07);
+  o.connect(g).connect(ctx.destination); o.start(t); o.stop(t+0.09);
+  const n=ctx.createBufferSource(), ng=ctx.createGain(), f=ctx.createBiquadFilter();
+  n.buffer=NOISE; f.type='bandpass'; f.frequency.value=3200; f.Q.value=1.2;
+  ng.gain.setValueAtTime(0.5*vol,t); ng.gain.exponentialRampToValueAtTime(0.0001,t+0.03);
+  n.connect(f).connect(ng).connect(ctx.destination); n.start(t); n.stop(t+0.04);
+}
+function hit(e, t){
+  const vol = e.g ? 0.45 : 1;
+  if(e.s==='P') parche(t,e.acc,1,vol);
+  else if(e.s==='H') parche(t,e.acc,1.9,vol);
+  else if(e.s==='M') parche(t,e.acc,1.4,vol);
+  else if(e.s==='A') aro(t,e.acc,vol);
+  else if(e.s==='X'){ parche(t,e.acc,1,vol); aro(t,e.acc,vol*0.8); }
+}
+function click(t, strong){
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='square'; o.frequency.value=strong?1900:1400;
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(strong?0.16:0.09,t+0.001); g.gain.exponentialRampToValueAtTime(0.0001,t+0.03);
+  o.connect(g).connect(ctx.destination); o.start(t); o.stop(t+0.04);
+}
+
+/* ---------- Reproducción ---------- */
+const eighth = () => 60/tempo/cur.beat;
+function buildSeq(){
+  // eventos en corcheas absolutas + clicks de metrónomo
+  seq=[]; let off=0;
+  parsed.forEach((bar,bi)=>{
+    bar.ev.forEach((e,ei)=>{ if(e.s!=='-') seq.push({at:off+e.t, e, id:`c${bi}_${ei}`}); else seq.push({at:off+e.t, e:null, id:`c${bi}_${ei}`}); });
+    for(let b=0;b<bar.len-0.001;b+=cur.beat) seq.push({at:off+b, click:true, strong:b===0});
+    off += bar.len;
+  });
+  seq.sort((a,b)=>a.at-b.at || (a.click?-1:1));
+  seq.total = off;
+}
+let loopStart=0;
+function schedule(){
+  const ahead = ctx.currentTime + 0.15;
+  if(countLeft>0){
+    while(nextTime < ahead && countLeft>0){
+      click(nextTime, countLeft===2*1); const n=countLeft, ms=(nextTime-ctx.currentTime)*1000;
+      setTimeout(()=>{ $('#status').textContent=`Preparate… ${n}`; }, Math.max(0,ms));
+      countLeft--; nextTime += eighth()*cur.beat;
+    }
+    if(countLeft===0){ loopStart = nextTime; const ms=(loopStart-ctx.currentTime)*1000; setTimeout(()=>{ $('#status').textContent='Vuelta 1'; }, Math.max(0,ms)); }
+    return;
+  }
+  while(true){
+    const item = seq[idx]; const when = loopStart + item.at*eighth();
+    if(when > ahead) break;
+    if(item.click){ if($('#optMetro').checked) click(when, item.strong); }
+    else {
+      if(item.e && $('#optBombo').checked){ if(item.e.g) hit({...item.e, acc:false}, Math.max(ctx.currentTime, when-0.05)); hit(item.e, when); }
+      const id=item.id, ms=(when-ctx.currentTime)*1000; setTimeout(()=>highlight(id), Math.max(0,ms));
+    }
+    idx++;
+    if(idx >= seq.length){
+      idx=0; loopStart += seq.total*eighth(); loops++;
+      if(rampTarget && loops%4===0 && tempo<rampTarget){ const old=eighth(); setTempo(Math.min(rampTarget,tempo+5)); }
+      const l=loops, ms=(loopStart-ctx.currentTime)*1000;
+      setTimeout(()=>{ $('#status').textContent=`Vuelta ${l+1}${rampTarget?` · subiendo hasta ${rampTarget}`:''}`; }, Math.max(0,ms));
+    }
+  }
+}
+function highlight(id){
+  document.querySelectorAll('.cell.now').forEach(c=>c.classList.remove('now'));
+  const c=document.getElementById(id); if(c) c.classList.add('now');
+}
+function start(){
+  if(!ctx){ ctx=new (window.AudioContext||window.webkitAudioContext)(); NOISE=noiseBuf(); }
+  if(ctx.state==='suspended') ctx.resume();
+  buildSeq(); rampTarget=null;
+  if($('#optRamp').checked){ rampTarget=cur.tempo; if(tempo>rampTarget*0.6) setTempo(Math.round(rampTarget*0.6)); }
+  playing=true; idx=0; loops=0;
+  countLeft = $('#optCount').checked ? (6/cur.beat>2?2:Math.round(6/cur.beat))*1 + 0 : 0;
+  if($('#optCount').checked) countLeft = cur.beat===3 ? 2 : 3;
+  nextTime = ctx.currentTime + 0.1; loopStart = nextTime;
+  timer = setInterval(schedule, 25);
+  $('#play').textContent='■ Parar'; $('#play').classList.add('stop');
+  $('#status').textContent = countLeft ? 'Preparate…' : 'Vuelta 1';
+}
+function stop(){
+  playing=false; clearInterval(timer);
+  $('#play').textContent='▶ Tocar'; $('#play').classList.remove('stop');
+  $('#status').textContent = loops ? `Tocaste ${loops} vuelta${loops===1?'':'s'}. ¡Bien ahí!` : '';
+  document.querySelectorAll('.cell.now').forEach(c=>c.classList.remove('now'));
+}
+$('#play').onclick = ()=> playing?stop():start();
+$('#tempo').oninput = e=>setTempo(+e.target.value);
+$('#minus').onclick = ()=>setTempo(tempo-5);
+$('#plus').onclick = ()=>setTempo(tempo+5);
+
+/* ---------- Acceso (correo + código) ---------- */
+const sb = supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit' } });
+let userEmail = '', started = false;
+function showGate(which, msg=''){
+  ['gLoading','gEmail','gCode','gNo'].forEach(id=>$('#'+id).style.display = id===which?'':'none');
+  $('#gate').style.display=''; $('#appWrap').style.display='none'; $('#gMsg').textContent = msg;
+}
+function startApp(data){
+  RHYTHMS = data;
+  $('#gate').style.display='none'; $('#appWrap').style.display='';
+  if(!started){
+    started = true;
+    cur = RHYTHMS.find(r=>r.id===load('last','chacarera')) || RHYTHMS[0];
+    ex = cur.ex[0]; tempo = load('tempo_'+cur.id, Math.round(cur.tempo*0.6));
+    renderAll();
+  }
+}
+async function loadContent(email){
+  showGate('gLoading');
+  const { data, error } = await sb.from('app_contenido').select('datos').eq('app','ritmos').maybeSingle();
+  if(data && data.datos){ startApp(data.datos); return; }
+  $('#emailNo').textContent = email || ''; showGate('gNo', error ? 'No pudimos cargar los ritmos. Probá de nuevo en un rato.' : '');
+}
+async function sendCode(){
+  const email = $('#email').value.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ $('#gMsg').textContent='Revisá el correo: parece que está mal escrito.'; return; }
+  $('#btnEmail').disabled = true; $('#gMsg').textContent = 'Buscando tu compra…';
+  const { data: ok, error } = await sb.rpc('es_comprador', { correo: email });
+  if(error){ $('#btnEmail').disabled=false; $('#gMsg').textContent='Hubo un problema. Probá de nuevo en un momento.'; return; }
+  if(!ok){ $('#btnEmail').disabled=false; $('#emailNo').textContent = email; showGate('gNo'); return; }
+  const r = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, emailRedirectTo: location.origin + location.pathname } });
+  $('#btnEmail').disabled = false;
+  if(r.error){ $('#gMsg').textContent = /rate|seconds/i.test(r.error.message) ? 'Ya te mandamos un código hace instantes. Esperá un minuto y probá de nuevo.' : 'No pudimos mandar el código. Probá de nuevo en un rato.'; return; }
+  userEmail = email; $('#emailShow').textContent = email; showGate('gCode');
+  setTimeout(()=>$('#code').focus(), 100);
+}
+async function checkCode(){
+  const token = $('#code').value.replace(/\D/g,'');
+  if(token.length < 6){ $('#gMsg').textContent='El código tiene 6 números.'; return; }
+  $('#btnCode').disabled = true; $('#gMsg').textContent = 'Verificando…';
+  const { error } = await sb.auth.verifyOtp({ email: userEmail, token, type: 'email' });
+  $('#btnCode').disabled = false;
+  if(error){ $('#gMsg').textContent = 'Ese código no es correcto o ya venció. Revisalo o pedí uno nuevo.'; return; }
+  loadContent(userEmail);
+}
+$('#btnEmail').onclick = sendCode;
+$('#email').addEventListener('keydown', e=>{ if(e.key==='Enter') sendCode(); });
+$('#btnCode').onclick = checkCode;
+$('#code').addEventListener('keydown', e=>{ if(e.key==='Enter') checkCode(); });
+$('#otherEmail').onclick = e=>{ e.preventDefault(); showGate('gEmail'); };
+$('#resend').onclick = e=>{ e.preventDefault(); $('#email').value = userEmail; sendCode(); };
+$('#tryAgain').onclick = async ()=>{ await sb.auth.signOut(); showGate('gEmail'); };
+$('#buyLink').href = TIENDA;
+$('#logout').onclick = async e=>{ e.preventDefault(); if(playing) stop(); await sb.auth.signOut(); started=false; showGate('gEmail'); };
+sb.auth.onAuthStateChange((ev, session)=>{ if(ev==='SIGNED_IN' && session && !started) loadContent(session.user.email); });
+(async ()=>{
+  const { data: { session } } = await sb.auth.getSession();
+  if(session) loadContent(session.user.email); else showGate('gEmail');
+})();
+</script>
+</body>
+</html>
