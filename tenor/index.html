@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>El mundo del tenor · Calentamiento guiado</title>
+<style>
+:root{--bg:#141210;--card:#1f1b17;--ink:#f3ece2;--mut:#a99c8c;--gold:#d8a24a;--gold2:#f0c878;--red:#c9543c;--paper:#f6f0e4;--line:#2d2722}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(1200px 600px at 50% -10%,#2a211a,var(--bg));color:var(--ink);font:16px/1.45 Georgia,"Times New Roman",serif;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:460px;padding:18px 16px 28px;display:flex;flex-direction:column;gap:14px}
+.brand{text-align:center;letter-spacing:.32em;font-size:11px;color:var(--gold);text-transform:uppercase;font-family:system-ui,sans-serif}
+h1{font-weight:400;text-align:center;font-size:30px;line-height:1.15}
+h2{font-weight:400;font-size:22px;text-align:center}
+.sub{text-align:center;color:var(--mut);font-family:system-ui,sans-serif;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.type{background:#2a241e;border:1px solid var(--line);border-radius:12px;padding:10px;color:var(--ink);text-align:left;font:inherit;cursor:pointer}
+.type b{display:block;font-weight:400;font-size:17px}
+.type span{font:12px system-ui,sans-serif;color:var(--mut)}
+.type.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.btn{display:block;width:100%;border:0;border-radius:999px;padding:14px;font:600 16px system-ui,sans-serif;cursor:pointer;background:var(--gold);color:#201608}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid #4a4038}
+.row{display:flex;gap:8px}
+.row .btn{flex:1;padding:12px;font-size:14px}
+.steps{list-style:none;display:flex;flex-direction:column;gap:10px;font-family:system-ui,sans-serif;font-size:15px}
+.steps li{display:flex;gap:12px;align-items:center;background:#2a241e;border-radius:12px;padding:10px 12px}
+.steps i{flex:0 0 28px;height:28px;border-radius:50%;background:var(--gold);color:#201608;font-style:normal;font-weight:700;display:flex;align-items:center;justify-content:center}
+.warn{font:13px system-ui,sans-serif;color:#e8b9a8;background:#2b1a15;border:1px solid #4a2a20;border-radius:12px;padding:10px 12px}
+.meta{text-align:center;font:13px system-ui,sans-serif;color:var(--mut)}
+.staff{background:var(--paper);border-radius:14px;padding:6px 4px 2px}
+.syl{text-align:center;font-size:64px;color:var(--gold2);line-height:1;min-height:66px;transition:transform .12s}
+.syl.pop{transform:scale(1.12)}
+.dots{display:flex;justify-content:center;gap:6px}
+.dots span{width:7px;height:7px;border-radius:50%;background:#4a4038}
+.dots span.done{background:var(--red)}.dots span.now{background:var(--gold)}
+.kb{position:relative;height:110px;background:#0d0b09;border-radius:10px;padding:6px;overflow:hidden}
+.kin{position:absolute;inset:6px}
+.kb .w{position:absolute;top:0;bottom:0;background:#fbf8f2;border-radius:0 0 6px 6px;border:1px solid #bbb}
+.kb .b{position:absolute;top:0;height:62%;background:#1b1714;border-radius:0 0 5px 5px;z-index:2}
+.kb .on{background:var(--gold)!important}
+.kb .lab{position:absolute;bottom:8px;font:10px system-ui;color:#8a7f72;z-index:3;transform:translateX(-50%)}
+.tip{text-align:center;font:14px system-ui,sans-serif;color:var(--mut);min-height:40px}
+.opts{display:flex;gap:8px;justify-content:center;font:13px system-ui,sans-serif;color:var(--mut)}
+.opts button{background:#2a241e;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;cursor:pointer}
+.opts button.on{border-color:var(--gold);color:var(--gold2)}
+.tune{display:flex;align-items:center;gap:10px;background:#2a241e;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font:13px system-ui,sans-serif}
+.tune .nm{font:22px Georgia,serif;min-width:64px;text-align:center}
+.tune .bar{flex:1;height:10px;background:#3a322b;border-radius:5px;position:relative}
+.tune .bar i{position:absolute;top:-3px;width:4px;height:16px;border-radius:2px;background:var(--mut);left:50%;transition:left .08s}
+.tune .bar b{position:absolute;left:50%;top:-5px;width:1px;height:20px;background:#7a6d60}
+.tune .st{min-width:86px;text-align:right;color:var(--mut)}
+.mic{background:transparent;border:1px solid #4a4038;color:var(--ink);border-radius:999px;padding:8px 14px;font:13px system-ui,sans-serif;cursor:pointer;align-self:center}
+.hide{display:none!important}
+.foot{text-align:center;font:11px system-ui,sans-serif;color:#6d6257}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand">El mundo del tenor</div>
+
+  <!-- 1. Elegir voz -->
+  <section id="s1">
+    <h1>Calentá la voz<br>conmigo</h1>
+    <p class="sub" style="margin:8px 0 14px">Escala de 5 notas · el piano sube hasta el agudo y vos frenás donde quieras</p>
+    <div class="card">
+      <p class="sub" style="margin-bottom:10px">¿Qué voz tenés? (si no sabés, elegí Lírico)</p>
+      <div class="types" id="types"></div>
+    </div>
+    <div class="warn" style="margin-top:12px">Si en algún momento duele, raspa o la garganta se cierra: pará. Este ejercicio no reemplaza a un profesor ni a un médico.</div>
+    <button class="btn" style="margin-top:14px" id="go1">Continuar</button>
+  </section>
+
+  <!-- 2. Antes de empezar -->
+  <section id="s2" class="hide">
+    <h2>Antes de empezar</h2>
+    <ul class="steps" style="margin:14px 0">
+      <li><i>1</i>Relajá hombros y cuello: tres círculos lentos hacia atrás.</li>
+      <li><i>2</i>Soltá la mandíbula: un bostezo suave, sin forzar.</li>
+      <li><i>3</i>Tres respiraciones lentas: el aire abre las costillas, los hombros no suben.</li>
+      <li><i>4</i>Un "mmm" suave en tu nota cómoda, sintiendo vibrar los labios.</li>
+    </ul>
+    <button class="btn" id="go2">Listo, empezar</button>
+    <button class="btn ghost" style="margin-top:8px" id="back2">Volver</button>
+  </section>
+
+  <!-- 3. Ejercicio -->
+  <section id="s3" class="hide" style="display:flex;flex-direction:column;gap:12px">
+    <h2 id="phase">¡Ahora cantá vos!</h2>
+    <div class="meta" id="meta">Repetición 1 · Do mayor · sílaba "ma"</div>
+    <div class="staff"><svg id="staff" viewBox="0 0 360 150" width="100%"></svg></div>
+    <div class="syl" id="syl">ma</div>
+    <div class="dots" id="dots"></div>
+    <div class="kb" id="kb"></div>
+    <button class="mic" id="micbtn">🎤 Ver mi afinación (con auriculares)</button>
+    <div class="tune hide" id="tune"><span class="nm" id="tnm">—</span><span class="bar"><b></b><i id="tneedle"></i></span><span class="st" id="tst">Cantá…</span></div>
+    <div class="tip" id="tip">Boca relajada, mandíbula suelta.</div>
+    <div class="opts">
+      <span style="align-self:center">Velocidad</span>
+      <button data-t="0.55">Lenta</button><button data-t="0.42" class="on">Normal</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost" id="pause">Pausa</button>
+      <button class="btn" id="down">Hasta acá: bajemos</button>
+    </div>
+    <button class="btn ghost" id="stop">Terminar</button>
+  </section>
+
+  <!-- 4. Final -->
+  <section id="s4" class="hide">
+    <h2>¡Voz despierta!</h2>
+    <p class="sub" style="margin:10px 0 16px" id="endmsg">Completaste el calentamiento.</p>
+    <div class="card" style="font:14px system-ui,sans-serif;color:var(--mut)">
+      Ahora tomá agua y descansá un minuto antes de pasar al trabajo de passaggio. Si notaste ronquera o dolor, hoy no sigas.
+    </div>
+    <button class="btn" style="margin-top:14px" id="again">Repetir</button>
+  </section>
+
+  <p class="foot">Prototipo · Universo Musical<br>Piano: Salamander Grand Piano, de Alexander Holm (CC BY 3.0)</p>
+</div>
+
+<script>
+// ---------- Datos ----------
+// Tonos en MIDI (sonido real). La voz de tenor se escribe en clave de sol octavada (una octava más arriba de lo que suena).
+const VOICES = {
+  ligero:     {n:"Ligero",      d:"claro y ágil",       start:50, top:70, oct:true},  // escala desde re3 · el piano llega hasta fa5
+  lirico:     {n:"Lírico",      d:"cálido y redondo",   start:48, top:70, oct:true},  // desde do3
+  spinto:     {n:"Spinto",      d:"lírico con empuje",  start:47, top:70, oct:true},  // desde si2
+  dramatico:  {n:"Dramático",   d:"oscuro y potente",   start:46, top:70, oct:true},  // desde si♭2
+  contra:     {n:"Contratenor", d:"voz de cabeza",      start:62, top:74, oct:false}, // desde re4 · hasta la5
+};
+const SYL = ["ma","me","mi","mo","mu"];
+const PATTERN = [0,2,4,5,7,5,4,2,0]; // 1-2-3-4-5-4-3-2-1
+const KEY = {0:["C",0,"Do"],1:["D",-1,"Re♭"],2:["D",0,"Re"],3:["E",-1,"Mi♭"],4:["E",0,"Mi"],5:["F",0,"Fa"],6:["F",1,"Fa♯"],7:["G",0,"Sol"],8:["A",-1,"La♭"],9:["A",0,"La"],10:["B",-1,"Si♭"],11:["B",0,"Si"]};
+const LET = ["C","D","E","F","G","A","B"], NAT = {C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+const NAMES = ["Do","Do♯","Re","Re♯","Mi","Fa","Fa♯","Sol","Sol♯","La","La♯","Si"];
+const TIPS = ["Boca relajada, mandíbula suelta.","Color, no cantidad: no empujes.","El mismo cuerpo de la primera a la última nota.","El aire sale parejo, los hombros quietos.","Si se siente forzado, no subas más: tocá \"Hasta acá\"."];
+
+let target = null;
+let voice = "lirico", beat = 0.42, timers = [], running = false, paused = false;
+let root, dir, rep, total, plan = [], idx = 0;
+
+// ---------- Pantallas ----------
+const $ = s => document.querySelector(s);
+function show(id){ ["s1","s2","s3","s4"].forEach(s=>$("#"+s).classList.toggle("hide", s!==id)); }
+const types = $("#types");
+for (const [k,v] of Object.entries(VOICES)){
+  const b = document.createElement("button");
+  b.className = "type"+(k===voice?" on":""); b.innerHTML = `<b>${v.n}</b><span>${v.d}</span>`;
+  b.onclick = ()=>{ voice=k; [...types.children].forEach(c=>c.classList.remove("on")); b.classList.add("on"); };
+  types.appendChild(b);
+}
+$("#go1").onclick = ()=>show("s2");
+$("#back2").onclick = ()=>show("s1");
+$("#go2").onclick = async ()=>{ initAudio(); const b=$("#go2"); if(!loaded){ b.textContent="Cargando el piano…"; await loading; b.textContent="Listo, empezar"; } startExercise(); };
+$("#again").onclick = ()=>show("s1");
+document.querySelectorAll(".opts button").forEach(b=>b.onclick=()=>{ beat=+b.dataset.t; document.querySelectorAll(".opts button").forEach(x=>x.classList.toggle("on",x===b)); });
+
+// ---------- Plan de repeticiones: sube de a medio tono hasta el tope y vuelve a bajar ----------
+function buildPlan(v){
+  const up=[]; for(let r=v.start; r<=v.top; r++) up.push(r);
+  const downs = up.slice(0,-1).reverse().filter((_,i)=>i%2===0); // baja de a tono
+  return up.concat(downs);
+}
+function startExercise(){
+  const v = VOICES[voice];
+  plan = buildPlan(v); idx = 0; running = true; paused = false;
+  $("#pause").textContent = "Pausa";
+  drawDots(); show("s3"); drawKeyboard();
+  setTimeout(playRep, 500);
+}
+
+// ---------- Teoría: escribir las notas ----------
+function spell(rootMidi){
+  const pc = ((rootMidi%12)+12)%12, [L,acc] = KEY[pc];
+  const li = LET.indexOf(L);
+  const rootOct = Math.floor((rootMidi - (NAT[L]+acc))/12) - 1;
+  const deg = [0,1,2,3,4];
+  return deg.map((d,i)=>{
+    const letter = LET[(li+d)%7], octUp = Math.floor((li+d)/7);
+    const midi = rootMidi + [0,2,4,5,7][i];
+    const oct = rootOct + octUp;
+    const a = midi - ((oct+1)*12 + NAT[letter]);
+    return {letter, oct, acc:a, midi};
+  });
+}
+function drawStaff(rootMidi, active){
+  const v = VOICES[voice], shift = v.oct ? 12 : 0;
+  const sp = spell(rootMidi + shift);
+  const notes = PATTERN.map(p=>sp[[0,2,4,5,7].indexOf(p)]);
+  const svg = $("#staff"), top=40, gap=10, bottom=top+4*gap;
+  let h = "";
+  for(let i=0;i<5;i++) h += `<line x1="8" x2="352" y1="${top+i*gap}" y2="${top+i*gap}" stroke="#3a3128" stroke-width="1.2"/>`;
+  h += `<text x="10" y="${bottom+9}" font-size="58" fill="#2a221b" font-family="'Noto Music','Segoe UI Symbol','Apple Symbols',serif">𝄞</text>`;
+  if (v.oct) h += `<text x="27" y="${bottom+30}" font-size="13" fill="#2a221b" font-family="system-ui">8</text>`;
+  const x0 = 70, dx = 30, seen = {};
+  notes.forEach((n,i)=>{
+    const step = n.oct*7 + LET.indexOf(n.letter);
+    const y = bottom - (step-30)*(gap/2);
+    const x = x0 + i*dx, on = i===active;
+    for(let s=28; s>=step; s-=2) h += `<line x1="${x-11}" x2="${x+11}" y1="${bottom-(s-30)*(gap/2)}" y2="${bottom-(s-30)*(gap/2)}" stroke="#3a3128" stroke-width="1.2"/>`;
+    for(let s=40; s<=step; s+=2) h += `<line x1="${x-11}" x2="${x+11}" y1="${bottom-(s-30)*(gap/2)}" y2="${bottom-(s-30)*(gap/2)}" stroke="#3a3128" stroke-width="1.2"/>`;
+    const key = n.letter+n.oct, showAcc = n.acc && seen[key]!==n.acc; seen[key]=n.acc;
+    if (showAcc) h += `<text x="${x-19}" y="${y+5}" font-size="15" fill="${on?'#b07a1f':'#2a221b'}">${n.acc>0?'♯':'♭'}</text>`;
+    const last = i===notes.length-1;
+    h += `<ellipse cx="${x}" cy="${y}" rx="6.6" ry="5" transform="rotate(-20 ${x} ${y})" fill="${last?'none':(on?'#d8a24a':'#2a221b')}" stroke="${on?'#d8a24a':'#2a221b'}" stroke-width="${last?2:1}"/>`;
+    if(!last){ const up = step < 34; h += `<line x1="${up?x+6:x-6}" x2="${up?x+6:x-6}" y1="${y}" y2="${up?y-30:y+30}" stroke="${on?'#d8a24a':'#2a221b'}" stroke-width="1.3"/>`; }
+    h += `<text x="${x}" y="${bottom+46}" text-anchor="middle" font-size="11" font-family="system-ui" fill="${on?'#b07a1f':'#7a6d60'}">${$("#syl").textContent}</text>`;
+  });
+  svg.innerHTML = h;
+}
+
+// ---------- Teclado ----------
+let kbLow, kbHigh;
+function drawKeyboard(){
+  const v = VOICES[voice];
+  kbLow = v.start - 2; kbHigh = v.top + 9;
+  while ([1,3,6,8,10].includes(((kbLow%12)+12)%12)) kbLow--;
+  const whites = []; for(let m=kbLow;m<=kbHigh;m++) if(![1,3,6,8,10].includes(m%12)) whites.push(m);
+  const kb = $("#kb"), W = 100/whites.length; let h="";
+  whites.forEach((m,i)=>{ h += `<div class="w" data-m="${m}" style="left:${i*W}%;width:calc(${W}% - 2px)"></div>`;
+    if(m%12===0) h += `<div class="lab" style="left:${(i+.5)*W}%">Do${Math.floor(m/12)-1}</div>`; });
+  for(let m=kbLow;m<=kbHigh;m++) if([1,3,6,8,10].includes(m%12)){
+    const i = whites.indexOf(m-1); h += `<div class="b" data-m="${m}" style="left:calc(${(i+1)*W}% - ${W*0.3}%);width:${W*0.6}%"></div>`; }
+  kb.innerHTML = `<div class="kin">${h}</div>`;
+}
+function lightKey(m){ document.querySelectorAll("#kb [data-m]").forEach(k=>k.classList.toggle("on", +k.dataset.m===m)); }
+
+// ---------- Audio: piano de cola (muestras Salamander Grand Piano) ----------
+let ctx, master, samples = {}, loaded = false;
+const SAMP = []; ["C","Ds","Fs","A"].forEach((n,i)=>{ for(let o=2;o<=5;o++) SAMP.push({name:n+o, midi:(o+1)*12+[0,3,6,9][i]}); }); SAMP.push({name:"C6",midi:84});
+function makeCtx(){
+  if (ctx) return;
+  ctx = new (window.AudioContext||window.webkitAudioContext)();
+  master = ctx.createGain(); master.gain.value = 0.9;
+  const comp = ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+}
+async function loadPiano(){
+  makeCtx();
+  await Promise.all(SAMP.map(async s=>{
+    try{ const r = await fetch("piano/"+s.name+".mp3"); const b = await r.arrayBuffer();
+      samples[s.midi] = await new Promise((ok,ko)=>ctx.decodeAudioData(b,ok,ko)); }catch(e){}
+  }));
+  loaded = Object.keys(samples).length > 0;
+}
+const loading = loadPiano();
+function initAudio(){ makeCtx(); ctx.resume(); }
+function piano(midi, when, dur, vel=0.6){
+  if (!loaded) return synth(midi, when, dur, vel);
+  let best = null; for (const m in samples){ if(best===null || Math.abs(m-midi) < Math.abs(best-midi)) best = +m; }
+  const src = ctx.createBufferSource(); src.buffer = samples[best];
+  src.playbackRate.value = Math.pow(2,(midi-best)/12);
+  const g = ctx.createGain(); g.gain.setValueAtTime(vel, when);
+  g.gain.setValueAtTime(vel, when+dur); g.gain.exponentialRampToValueAtTime(0.0001, when+dur+0.9);
+  src.connect(g); g.connect(master); src.start(when); src.stop(when+dur+1);
+}
+function synth(midi, when, dur, vel){
+  const f = 440*Math.pow(2,(midi-69)/12), g = ctx.createGain(); g.connect(master);
+  g.gain.setValueAtTime(0.0001, when); g.gain.exponentialRampToValueAtTime(vel*0.6, when+0.008);
+  g.gain.exponentialRampToValueAtTime(0.0001, when+dur+1.2);
+  [[1,1,"triangle"],[2,.35,"sine"],[3,.15,"sine"]].forEach(([h,a,tp])=>{ const o=ctx.createOscillator(),og=ctx.createGain(); o.type=tp; o.frequency.value=f*h; og.gain.value=a; o.connect(og); og.connect(g); o.start(when); o.stop(when+dur+1.3); });
+}
+
+// ---------- Ejercicio ----------
+function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+function clearTimers(){ timers.forEach(clearTimeout); timers=[]; }
+function drawDots(){
+  const d = $("#dots"); d.innerHTML = "";
+  const n = Math.min(plan.length, 14), startI = Math.max(0, Math.min(idx-6, plan.length-n));
+  for(let i=startI;i<startI+n;i++){ const s=document.createElement("span"); if(i<idx) s.className="done"; if(i===idx) s.className="now"; d.appendChild(s); }
+}
+function playRep(){
+  if(!running || paused) return;
+  if(idx >= plan.length) return finish("Completaste el calentamiento.");
+  const r = plan[idx], v = VOICES[voice];
+  const syl = SYL[idx % SYL.length], [, , kname] = KEY[((r%12)+12)%12];
+  const goingUp = idx===0 || r > plan[idx-1];
+  $("#syl").textContent = syl;
+  $("#meta").textContent = `Repetición ${idx+1} de ${plan.length} · ${kname} mayor · sílaba "${syl}"`;
+  const hi = r+7;
+  let tip = goingUp ? TIPS[idx % TIPS.length] : "Bajamos: dejá que la voz se acomode sola.";
+  if (goingUp && v.oct && hi>=72) tip = "Zona del do de pecho: solo si sale libre y sin dolor. Si no, tocá \"Hasta acá\".";
+  else if (goingUp && v.oct && hi>=66) tip = "Pasás por el passaggio: recogé el sonido, color y no cantidad. Sin empujar.";
+  if (r===v.top) tip = "Esta es la más alta del ejercicio. Liviano. Después bajamos.";
+  $("#tip").textContent = tip;
+  drawDots();
+  // Acorde de referencia + notas guía
+  $("#phase").textContent = "Escuchá el tono…";
+  drawStaff(r, -1);
+  const t0 = ctx.currentTime + 0.05;
+  [0,4,7].forEach(i=>piano(r+i, t0, 0.9, 0.28));
+  later(()=>{ $("#phase").textContent = "¡Ahora cantá vos!"; }, 900);
+  const t1 = t0 + 1.1;
+  PATTERN.forEach((p,i)=>{
+    const last = i===PATTERN.length-1, d = last ? beat*2.2 : beat;
+    const when = t1 + i*beat;
+    piano(r+p, when, d, 0.45);
+    later(()=>{ target = r+p; drawStaff(r, i); lightKey(r+p); const s=$("#syl"); s.classList.add("pop"); setTimeout(()=>s.classList.remove("pop"),110); }, (when-ctx.currentTime)*1000);
+  });
+  const end = t1 + (PATTERN.length-1)*beat + beat*2.2 + 0.9;
+  later(()=>{ target = null; }, (t1 + (PATTERN.length-1)*beat + beat*2.2 + 0.4 - ctx.currentTime)*1000);
+  later(()=>{ lightKey(-1); idx++; playRep(); }, (end-ctx.currentTime)*1000);
+}
+function finish(msg){
+  running=false; clearTimers(); lightKey(-1);
+  $("#endmsg").textContent = msg; show("s4");
+}
+$("#pause").onclick = ()=>{
+  if(!running) return;
+  paused = !paused; $("#pause").textContent = paused ? "Seguir" : "Pausa";
+  if(paused){ clearTimers(); lightKey(-1); $("#phase").textContent="En pausa"; }
+  else { ctx.resume(); playRep(); }
+};
+$("#down").onclick = ()=>{
+  if(!running) return;
+  const cur = plan[Math.min(idx, plan.length-1)], v = VOICES[voice];
+  const downs=[]; for(let r=cur-2; r>=v.start; r-=2) downs.push(r);
+  plan = plan.slice(0, idx).concat(downs.length?downs:[v.start]);
+  clearTimers(); lightKey(-1);
+  $("#tip").textContent = "Bien hecho en escucharte. Bajamos desde acá.";
+  if(paused){ paused=false; $("#pause").textContent="Pausa"; }
+  later(playRep, 600);
+};
+// ---------- Micrófono: detección de afinación ----------
+let micOn = false, an, buf;
+$("#micbtn").onclick = async ()=>{
+  if (micOn) return;
+  try{
+    initAudio();
+    const st = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:false, autoGainControl:false}});
+    const src = ctx.createMediaStreamSource(st); an = ctx.createAnalyser(); an.fftSize = 2048; src.connect(an);
+    buf = new Float32Array(an.fftSize); micOn = true;
+    $("#micbtn").classList.add("hide"); $("#tune").classList.remove("hide"); tuneLoop();
+  }catch(e){ $("#micbtn").textContent = "No se pudo usar el micrófono: revisá el permiso del navegador"; }
+};
+function detectPitch(b, sr){
+  let rms=0; for(const v of b) rms+=v*v; rms=Math.sqrt(rms/b.length); if(rms<0.012) return -1;
+  let r1=0, r2=b.length-1; const th=0.2;
+  for(let i=0;i<b.length/2;i++) if(Math.abs(b[i])<th){ r1=i; break; }
+  for(let i=1;i<b.length/2;i++) if(Math.abs(b[b.length-i])<th){ r2=b.length-i; break; }
+  const x=b.slice(r1,r2), n=x.length, c=new Float32Array(n);
+  for(let i=0;i<n;i++) for(let j=0;j<n-i;j++) c[i]+=x[j]*x[j+i];
+  let d=0; while(d<n-1 && c[d]>c[d+1]) d++;
+  let mx=-1, mp=-1; for(let i=d;i<n;i++) if(c[i]>mx){ mx=c[i]; mp=i; }
+  if(mp<=0 || mp>=n-1) return -1;
+  const a=(c[mp-1]+c[mp+1]-2*c[mp])/2, bb=(c[mp+1]-c[mp-1])/2; const T = a ? mp - bb/(2*a) : mp;
+  const f = sr/T; return (f>60 && f<1200) ? f : -1;
+}
+let smooth = null;
+function tuneLoop(){
+  an.getFloatTimeDomainData(buf);
+  const f = detectPitch(buf, ctx.sampleRate);
+  if (f > 0){
+    const m = 69 + 12*Math.log2(f/440); smooth = smooth===null ? m : smooth*0.6 + m*0.4;
+    const n = Math.round(smooth); $("#tnm").textContent = NAMES[((n%12)+12)%12] + (Math.floor(n/12)-1);
+    if (target !== null){
+      let cents = (smooth - target)*100, oct = "";
+      if (Math.abs(cents) > 600){ const o = Math.round(cents/1200); cents -= o*1200; oct = " (otra octava)"; }
+      const cl = Math.max(-50, Math.min(50, cents));
+      $("#tneedle").style.left = (50 + cl) + "%";
+      const ok = Math.abs(cents) <= 25;
+      $("#tneedle").style.background = ok ? "#7fc17a" : "#d8a24a";
+      $("#tst").textContent = (ok ? "¡Afinado!" : (cents < 0 ? "Un poco bajo" : "Un poco alto")) + oct;
+    } else { $("#tneedle").style.left = "50%"; $("#tneedle").style.background = "#a99c8c"; $("#tst").textContent = "Esperá la escala"; }
+  } else { smooth = null; }
+  requestAnimationFrame(tuneLoop);
+}
+$("#stop").onclick = ()=>finish("Terminaste antes: está perfecto escuchar a tu voz.");
+</script>
+</body>
+</html>
